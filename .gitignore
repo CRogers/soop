@@ -6,3 +6,5 @@ obj/
 .userprefs
 Lexer.fs
 Parser.fs
+*.fsi
+*.fso
