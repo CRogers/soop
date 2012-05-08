@@ -41,9 +41,12 @@
 "C:\Program Files (x86)\FSharpPowerPack-2.0.0.0\bin\fsyacc.exe" "$(ProjectDir)\Parser.fsy" -o "$(ProjectDir)\Parser.fs" --module Parser</PreBuildEvent>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Program.fs" />
-    <None Include="Lexer.fsl" />
+    <Compile Include="Print.fs" />
+    <Compile Include="Parser.fs" />
     <None Include="Parser.fsy" />
+    <Compile Include="Lexer.fs" />
+    <None Include="Lexer.fsl" />
+    <Compile Include="Program.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FSharp.PowerPack">
