@@ -4,3 +4,5 @@ _ReSharper.*/
 bin/
 obj/
 .userprefs
+Lexer.fs
+Parser.fs
