@@ -1,0 +1,11 @@
+﻿{
+	let lineno = ref 1
+}
+
+let ident = ['a'-'z' 'A'-'Z']*
+let white = [' ' '\t']
+let newline = '\r'? '\n'
+
+rule token = parse
+    | white                { token lexbuf }
+    | newline              { incr lineno }

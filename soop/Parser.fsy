@@ -1,0 +1,8 @@
+﻿%token<string>  IDENT
+
+%type<string> program
+%start program
+
+%%
+
+program: IDENT             { $1 }
