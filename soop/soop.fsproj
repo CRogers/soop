@@ -37,7 +37,7 @@
   <Import Project="$(MSBuildExtensionsPath32)\FSharp\1.0\Microsoft.FSharp.Targets" Condition="!Exists('$(MSBuildBinPath)\Microsoft.Build.Tasks.v4.0.dll')" />
   <Import Project="$(MSBuildExtensionsPath32)\..\Microsoft F#\v4.0\Microsoft.FSharp.Targets" Condition=" Exists('$(MSBuildBinPath)\Microsoft.Build.Tasks.v4.0.dll')" />
   <PropertyGroup>
-    <PreBuildEvent>"C:\Program Files (x86)\FSharpPowerPack-2.0.0.0\bin\fslex.exe"  "$(ProjectDir)\Lexer.fsl" -o "$(ProjectDir)\Lexer.fs"
+    <PreBuildEvent>"C:\Program Files (x86)\FSharpPowerPack-2.0.0.0\bin\fslex.exe" --unicode "$(ProjectDir)\Lexer.fsl" -o "$(ProjectDir)\Lexer.fs"
 "C:\Program Files (x86)\FSharpPowerPack-2.0.0.0\bin\fsyacc.exe" "$(ProjectDir)\Parser.fsy" -o "$(ProjectDir)\Parser.fs" --module Parser</PreBuildEvent>
   </PropertyGroup>
   <ItemGroup>

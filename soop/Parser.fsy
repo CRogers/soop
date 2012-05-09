@@ -1,5 +1,5 @@
 %token<string> IDENT
-%token         CLASS LCURLY RCURLY LPAR RPAR IF ELSE FOR WHILE IN SEMI
+%token         CLASS LCURLY RCURLY LPAR RPAR IF ELSE FOR WHILE IN SEMI BADTOK EOL
 
 %type<string> program
 %start program

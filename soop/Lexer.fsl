@@ -2,21 +2,26 @@
 
 module Lexer
 
+open Microsoft.FSharp.Text.Lexing
 open Parser
 
 let lineno = ref 1
 
-let kwtable = Map([
-    ("class", CLASS); ("{", LCURLY); ("{", RCURLY); ("(", LPAR); (")", RPAR);
-    ("if", IF); ("else", ELSE); ("for", FOR); ("while", WHILE); ("in", IN); (";", SEMI)
+let lexeme = Lexing.LexBuffer<_>.LexemeString
+
+let kwtable = new Map<string,token>([
+    ("class", CLASS); ("if", IF); ("else", ELSE); ("for", FOR); ("while", WHILE); ("in", IN);
     ])
 
 }
 
-let ident = ['a'-'z' 'A'-'Z']*
+let ident = ['A'-'Z' 'a'-'z' '_'] ['A'-'Z' 'a'-'z' '0'-'9' '_']*
 let white = [' ' '\t']
 let newline = '\r'? '\n'
 
 rule token = parse
     | white+               { token lexbuf }
-    | newline              { incr lineno }
+    | newline              { incr lineno; EOL }
+    | ident                { match kwtable.TryFind(lexeme lexbuf) with
+                                | Some(x) -> x
+                                | None    -> IDENT (lexeme lexbuf) }
