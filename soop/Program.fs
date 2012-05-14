@@ -2,12 +2,29 @@
 
 open Print
 open Printf
+open Lexer
+open Parser
+open Microsoft.FSharp.Text.Lexing
+open System.IO
 
-type expr =
-    | Foo of string * expr * int list
-    | Cat
 
-       
-let f = Foo ("lol", Foo("bar", Cat, [4;5;6]), [1; 2; 3])
-printfn "%s" (fmt f)
-printfn "%s" (fmt Cat)
+let fileToLexbuf file =
+    let stream = File.OpenText(file)
+    LexBuffer<_>.FromTextReader stream
+
+let stringToLexbuf str = 
+    LexBuffer<_>.FromString str
+
+let lex (lexbuf:LexBuffer<_>) =
+    while not lexbuf.IsPastEndOfStream do
+        printf "%s " (Lexer.token lexbuf |> fmt)
+
+let parse lexbuf =
+    Parser.program Lexer.token lexbuf
+
+
+let file = "tests/class.soop"
+
+lex (fileToLexbuf file)
+printfn "\n"
+printfmt (parse <| fileToLexbuf file)
