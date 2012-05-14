@@ -55,7 +55,8 @@ constructorDecl:
 
 argList:
 	| /* empty */                                            { [] }
-	| arg argList                                            { $1 :: $2 }
+	| arg                                                    { [$1] }
+	| arg COMMA argList                                      { $1 :: $3 }
 
 arg:
 	| IDENT COLON IDENT                                      { Arg ($1, $3) }
