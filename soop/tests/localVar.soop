@@ -1,5 +1,5 @@
 namespace Foo {
 	class A {
-		private a:Int = 4
+		private a:Int = 4;
 	}
 }

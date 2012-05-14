@@ -1,7 +1,7 @@
 namespace Foo {
 	class A {
-		private cat: Int = 1
-		public dog: Int = 6
+		private cat: Int = 1;
+		public dog: Int = 6;
 
 		public A(a: Int){}
 
