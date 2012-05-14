@@ -23,7 +23,7 @@ type stmt =
     // condition, loop code
     | While of expr * stmt list
 
-type accessModifer =
+type accessModifier =
     | Public | Private | Protected
 
 // name, type, initial value
@@ -33,9 +33,9 @@ type arg = Arg of string * stype
 type methodDecl = Method of string * arg list * stype * stmt list
 
 type classDecl = 
-    | LocalVar of string * accessModifer * stype * expr
-    | Method of string * accessModifer * arg list * stype * stmt list
-    | Constructor of arg list * stmt list
+    | LocalVar of string * accessModifier * stype * expr
+    | Method of string * accessModifier * arg list * stype * stmt list
+    | Constructor of accessModifier * arg list * stmt list
 
 type classInterfaceDecl = 
     // local vars, constructors, methods 

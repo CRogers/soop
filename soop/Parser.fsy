@@ -51,7 +51,7 @@ methodDecl:
 	| accessModifer DEF IDENT LPAR argList RPAR COLON IDENT LCURLY RCURLY { Method ($3, $1, $5, $8, []) }
 
 constructorDecl:
-	| accessModifer IDENT LPAR argList RPAR LCURLY RCURLY    { Constructor ($4, []) }
+	| accessModifer IDENT LPAR argList RPAR LCURLY RCURLY    { Constructor ($1, $4, []) }
 
 argList:
 	| /* empty */                                            { [] }
