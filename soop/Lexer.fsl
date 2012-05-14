@@ -2,26 +2,42 @@
 
 module Lexer
 
+open System
 open Microsoft.FSharp.Text.Lexing
 open Parser
 
 let lineno = ref 1
 
 let lexeme = Lexing.LexBuffer<_>.LexemeString
+let newline (lexbuf:LexBuffer<_>) = lexbuf.EndPos <- lexbuf.EndPos.NextLine
 
 let kwtable = new Map<string,token>([
-    ("class", CLASS); ("if", IF); ("else", ELSE); ("for", FOR); ("while", WHILE); ("in", IN);
+    ("namespace", NAMESPACE); ("class", CLASS); ("interface", INTERFACE); ("def", DEF);
+    ("if", IF); ("else", ELSE); ("for", FOR); ("in", IN); ("while", WHILE); ("switch", SWITCH); ("case", CASE); ("return", RETURN); 
+    ("public", PUBLIC); ("private", PRIVATE); ("protected", PROTECTED);
+    
+    ("(", LPAR); (")", RPAR); ("{", LCURLY); ("}", RCURLY); ("[", LSQUARE); ("]", RSQUARE);
+    ("\"", DQUOTE); ("'", SQUOTE); (":", COLON); (";", SEMI); (",", COMMA); (".", DOT); ("=", EQUALS);
+    ("+", PLUS); ("-", MINUS); ("*", TIMES); ("/", DIVIDE); 
+    ("<", LT); (">", GT);
     ])
+
+let seeIfKw notFound str = 
+    match kwtable.TryFind(str) with
+        | Some(x) -> x
+        | None    -> notFound str
 
 }
 
+let integer = ['0'-'9']+
 let ident = ['A'-'Z' 'a'-'z' '_'] ['A'-'Z' 'a'-'z' '0'-'9' '_']*
 let white = [' ' '\t']
-let newline = '\r'? '\n'
+let endline = '\r'? '\n'
 
 rule token = parse
     | white+               { token lexbuf }
-    | newline              { incr lineno; EOL }
-    | ident                { match kwtable.TryFind(lexeme lexbuf) with
-                                | Some(x) -> x
-                                | None    -> IDENT (lexeme lexbuf) }
+    | endline              { newline lexbuf; token lexbuf }
+    | eof                  { EOF }
+    | integer              { INT (Int32.Parse(lexeme lexbuf)) }
+    | ident                { seeIfKw (fun s -> IDENT s) (lexeme lexbuf) }
+    | _                    { seeIfKw (fun s -> BADTOK s) (lexeme lexbuf) }

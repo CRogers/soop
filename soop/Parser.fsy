@@ -1,9 +1,66 @@
-%token<string> IDENT
-%token         CLASS LCURLY RCURLY LPAR RPAR IF ELSE FOR WHILE IN SEMI BADTOK EOL
+%{
 
-%type<string> program
+open Tree
+
+%}
+
+%token<string> IDENT BADTOK
+%token         NAMESPACE CLASS INTERFACE DEF EOF
+%token         IF ELSE FOR IN WHILE SWITCH CASE RETURN
+%token         PUBLIC PRIVATE PROTECTED
+%token         LPAR RPAR LCURLY RCURLY LSQUARE RSQUARE
+%token         DQUOTE SQUOTE COLON SEMI COMMA DOT EQUALS
+%token         PLUS MINUS TIMES DIVIDE
+%token         LT GT
+
+%token<int>    INT
+
+
+%type<program> program
 %start program
 
 %%
 
-program: IDENT             { $1 }
+program: namespaceDecls EOF                                  { Program $1 }
+
+namespaceDecls:
+	| /* empty */                                            { [] }
+	| namespaceDecl namespaceDecls                           { $1 :: $2 }
+
+namespaceDecl:
+	| NAMESPACE IDENT LCURLY classInterfaceDecls RCURLY      { Namespace ($2, $4) }
+
+classInterfaceDecls:
+	| /* empty */                                            { [] }
+	| classInterfaceDecl classInterfaceDecls                 { $1 :: $2 }
+
+classInterfaceDecl:
+	| CLASS IDENT LCURLY classBody RCURLY                    { Class ($2, $4)  }
+	/*| INTERFACE IDENT LCURLY interfaceBody RCURLY            { Interface }*/
+
+classBody:
+	| /* empty */                                            { [] }
+	| localVarDecl classBody                                 { $1 :: $2 }
+	| methodDecl classBody                                   { $1 :: $2 }
+	| constructorDecl classBody                              { $1 :: $2 }
+
+localVarDecl:
+	| accessModifer IDENT COLON IDENT EQUALS INT             { LocalVar ($2, $1, $4, Int $6) }
+
+methodDecl:
+	| accessModifer DEF IDENT LPAR argList RPAR COLON IDENT LCURLY RCURLY { Method ($3, $1, $5, $8, []) }
+
+constructorDecl:
+	| accessModifer IDENT LPAR argList RPAR LCURLY RCURLY    { Constructor ($4, []) }
+
+argList:
+	| /* empty */                                            { [] }
+	| arg argList                                            { $1 :: $2 }
+
+arg:
+	| IDENT COLON IDENT                                      { Arg ($1, $3) }
+
+accessModifer:
+	| PUBLIC                                                 { Public }
+	| PRIVATE                                                { Private }
+	| PROTECTED                                              { Protected }
