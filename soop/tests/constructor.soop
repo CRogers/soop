@@ -1,0 +1,5 @@
+namespace Foo {
+	class A {
+		public A(a: Int){}
+	}
+}

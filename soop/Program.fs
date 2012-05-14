@@ -5,6 +5,7 @@ open Printf
 open Lexer
 open Parser
 open Microsoft.FSharp.Text.Lexing
+open System
 open System.IO
 
 
@@ -20,10 +21,15 @@ let lex (lexbuf:LexBuffer<_>) =
         printf "%s " (Lexer.token lexbuf |> fmt)
 
 let parse lexbuf =
-    Parser.program Lexer.token lexbuf
+    try
+        Parser.program Lexer.token lexbuf
+    with
+        | ex ->
+            printfn "Parse error at line %d, column %d at token %s" lexbuf.StartPos.Line lexbuf.StartPos.Column (Lexer.lexeme lexbuf)
+            Tree.Program []
 
 
-let file = "tests/class.soop"
+let file = "../../tests/constructor.soop"
 
 lex (fileToLexbuf file)
 printfn "\n"
