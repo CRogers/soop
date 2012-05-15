@@ -1,0 +1,7 @@
+namespace Foo {
+	class A {
+
+		private a: Int = (1+3)*4-5;
+
+	}
+}

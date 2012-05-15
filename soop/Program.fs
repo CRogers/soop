@@ -29,7 +29,7 @@ let parse lexbuf =
             Tree.Program []
 
 
-let file = "../../tests/fullClass.soop"
+let file = "../../tests/expr.soop"
 
 lex (fileToLexbuf file)
 printfn "\n"
