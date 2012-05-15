@@ -14,8 +14,9 @@ type expr =
     | Int of int
     | String of string
     | Binop of op * expr * expr
+    | Var of string
     // methodName, args
-    | MethodCall of string * string list
+    | MethodCall of string * expr list
 
 type stmt =
     // condition, ifpart, elsepart

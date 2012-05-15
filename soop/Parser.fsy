@@ -92,3 +92,16 @@ expr:
 	| expr TIMES expr                                        { Binop (Times, $1, $3) }
 	| expr DIVIDE expr                                       { Binop (Divide, $1, $3) }
 	| LPAR expr RPAR                                         { $2 }
+	| longIdent                                              { Var $1 }
+	| longIdent LPAR argCallList RPAR                        { MethodCall ($1, $3) }
+
+
+argCallList:
+	| /* empty */                                            { [] }
+	| expr                                                   { [$1] }
+	| expr COMMA argCallList                                 { $1 :: $3 }
+
+
+longIdent:
+	| IDENT                                                  { $1 }
+	| IDENT DOT longIdent                                    { $1 ^ "." ^ $3 }
