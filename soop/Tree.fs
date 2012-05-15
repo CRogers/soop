@@ -19,6 +19,7 @@ type expr =
     | MethodCall of string * expr list
 
 type stmt =
+    | Assign of string * expr
     // condition, ifpart, elsepart
     | If of expr * stmt list * stmt list
     // condition, loop code

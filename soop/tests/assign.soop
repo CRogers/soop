@@ -1,0 +1,8 @@
+namespace Foo {
+	class A {
+		public def bar(): Unit {
+			a = 3;
+			b = 4;
+		}
+	}
+}
