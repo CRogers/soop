@@ -20,17 +20,24 @@ let lex (lexbuf:LexBuffer<_>) =
     while not lexbuf.IsPastEndOfStream do
         printf "%s " (Lexer.token lexbuf |> fmt)
 
-let parse lexbuf =
+let parse file =
+    let lexbuf = fileToLexbuf file
     try
         Parser.program Lexer.token lexbuf
     with
         | ex ->
-            printfn "Parse error at line %d, column %d at token %s" lexbuf.StartPos.Line lexbuf.StartPos.Column (Lexer.lexeme lexbuf)
+            let line = lexbuf.StartPos.Line 
+            let col = lexbuf.StartPos.Column
+            printfn "Parse error at line %d, column %d at token %s" (line+1) col (Lexer.lexeme lexbuf)
+            let sourceLine = Seq.nth line (File.ReadLines(file))
+            let unpaddedLine = sourceLine.TrimStart(Seq.toArray ['\t'])
+            let unpaddedSpacer = "".PadRight(col - (sourceLine.Length - unpaddedLine.Length))
+            printfn "%s\n%s^" unpaddedLine unpaddedSpacer
             Tree.Program []
 
 
-let file = "../../tests/expr.soop"
+let file = "../../tests/assign.soop"
 
 lex (fileToLexbuf file)
 printfn "\n"
-printfmt (parse <| fileToLexbuf file)
+printfmt (parse file)
