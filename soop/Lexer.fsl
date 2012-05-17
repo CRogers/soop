@@ -29,7 +29,7 @@ let seeIfKw notFound str =
 
 }
 
-let integer = '-'?['0'-'9']+
+let integer = ['0'-'9']+
 let ident = ['A'-'Z' 'a'-'z' '_'] ['A'-'Z' 'a'-'z' '0'-'9' '_']*
 let white = [' ' '\t']
 let endline = '\r'? '\n'
