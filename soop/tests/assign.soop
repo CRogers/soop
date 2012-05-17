@@ -1,8 +1,10 @@
 namespace Foo {
 	class A {
 		public def bar(): Unit {
-			a = 3;
-			b = 4;
+			a:Int = 3;
+			b:Int = 4;
+
+			a = a + b;
 		}
 	}
 }
