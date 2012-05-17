@@ -16,7 +16,7 @@ type expr =
     | Binop of op * expr * expr
     | Var of string
     // methodName, args
-    | MethodCall of string * expr list
+    | MethodCall of expr * expr list
 
 type stmt =
     | NewAssign of stype * string * expr

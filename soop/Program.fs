@@ -36,7 +36,7 @@ let parse file =
             Tree.Program []
 
 
-let file = "../../tests/assign.soop"
+let file = "../../tests/expr.soop"
 
 lex (fileToLexbuf file)
 printfn "\n"

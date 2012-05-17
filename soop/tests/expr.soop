@@ -4,5 +4,6 @@ namespace Foo {
 		private a: Int = (1+3)*4-5;
 		protected b: Int = (1+2)*Namespace.Class.function(a,b,c);
 
+		private c: Int = (a.b(1,2)).c(3,4).d(5);
 	}
 }
