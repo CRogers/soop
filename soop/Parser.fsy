@@ -20,6 +20,7 @@ open Tree
 %start program
 
 
+%left  LT GT
 %left  PLUS MINUS
 %left  TIMES DIVIDE
 
@@ -72,23 +73,26 @@ accessModifer:
 
 
 block:
-	| COLON stmt                                             { [$2] }
+	| stmt                                                   { [$1] }
 	| LCURLY stmts RCURLY                                    { $2 }
 
 stmts:
 	| /* empty */                                            { [] }
-	| stmt SEMI stmts                                        { $1 :: $3 }
+	| stmt stmts                                             { $1 :: $2 }
 
 stmt:
-	| IDENT COLON longIdent EQUALS expr                      { NewAssign ($3, $1, $5) } 
-	| longIdent EQUALS expr                                  { Assign ($1, $3) }
+	| IDENT COLON longIdent EQUALS expr SEMI                 { NewAssign ($3, $1, $5) } 
+	| longIdent EQUALS expr SEMI                             { Assign ($1, $3) }
 	| IF expr block                                          { If ($2, $3, []) }
 	| IF expr block ELSE block                               { If ($2, $3, $5) }
 	| WHILE expr block                                       { While ($2, $3) }
+	| expr SEMI                                              { DoExpr $1 }
 
 
 expr:
 	| INT                                                    { Int $1 }
+	| expr LT expr                                           { Binop (LessThan, $1, $3) }
+	| expr GT expr                                           { Binop (GreaterThan, $1, $3) }
 	| expr PLUS expr                                         { Binop (Plus, $1, $3) }
 	| expr MINUS expr                                        { Binop (Minus, $1, $3) }
 	| expr TIMES expr                                        { Binop (Times, $1, $3) }

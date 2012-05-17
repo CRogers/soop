@@ -1,0 +1,15 @@
+namespace Foo {
+	class A {
+		public def a():Unit {
+
+			if x > 10 {
+				c:Int = x+10;
+				Console.Println(c);
+			}
+			else if x < 1
+				Console.Println(1);
+			else
+				Console.Println(4);
+		}
+	}
+}

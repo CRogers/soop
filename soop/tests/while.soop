@@ -1,0 +1,13 @@
+namespace Foo {
+	class A {
+		public def a():Unit {
+			while a < 3
+				Console.Println(a);
+
+			while x < 6 {
+				i = x + 6;
+				Console.Println(i);
+			}
+		}
+	}
+}

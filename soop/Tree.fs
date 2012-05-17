@@ -8,6 +8,7 @@ type stype = string
 
 type op =
     | Plus | Minus | Times | Divide
+    | LessThan | GreaterThan
 
 
 type expr =
@@ -25,6 +26,7 @@ type stmt =
     | If of expr * stmt list * stmt list
     // condition, loop code
     | While of expr * stmt list
+    | DoExpr of expr
 
 type accessModifier =
     | Public | Private | Protected
